@@ -21,10 +21,10 @@ namespace Aspidnest
                 ("Fungus3_48","Grass Hopper (1)"),
                 ("Hive_03_c","Bee Stinger (4)"),
                 ("Hive_03_c","Big Bee"),
-				("Fungus1_22","Mosquito"),
-				("Waterways_02","Fluke Fly"),
-				("Fungus3_13","Moss Flyer"),
-				("Ruins1_17","Ruins Flying Sentry Javelin")
+		("Fungus1_22","Mosquito"),
+		("Waterways_02","Fluke Fly"),
+		("Fungus3_13","Moss Flyer"),
+		("Ruins1_17","Ruins Flying Sentry Javelin")
             };
         }
 
@@ -42,10 +42,10 @@ namespace Aspidnest
         private GameObject petra = null;
         private GameObject soldier = null;
         private GameObject guardian = null;
-		private GameObject squit = null;
-		private GameObject fluke = null;
-		private GameObject mossy = null;
-		private GameObject lance = null;
+	private GameObject squit = null;
+	private GameObject fluke = null;
+	private GameObject mossy = null;
+	private GameObject lance = null;
 
         private float sceneTimer = 0.0f;
         private bool aspidSpawned = false;
@@ -79,10 +79,10 @@ namespace Aspidnest
             petra = preloadedObjects["Deepnest_43"]["Mantis Heavy Flyer"];
             soldier = preloadedObjects["Hive_03_c"]["Bee Stinger (4)"];
             guardian = preloadedObjects["Hive_03_c"]["Big Bee"];
-			squit = preloadedObjects["Fungus1_22"]["Mosquito"];
-			fluke = preloadedObjects["Waterways_02"]["Fluke Fly"];
-			mossy = preloadedObjects["Fungus3_13"]["Moss Flyer"];
-			lance = preloadedObjects["Ruins1_17"]["Ruins Flying Sentry Javelin"];
+	    squit = preloadedObjects["Fungus1_22"]["Mosquito"];
+	    fluke = preloadedObjects["Waterways_02"]["Fluke Fly"];
+	    mossy = preloadedObjects["Fungus3_13"]["Moss Flyer"];
+	    lance = preloadedObjects["Ruins1_17"]["Ruins Flying Sentry Javelin"];
 
             UnityEngine.SceneManagement.SceneManager.activeSceneChanged += ActiveSceneChanged;
             ModHooks.HeroUpdateHook += HeroUpdateHook;
@@ -112,10 +112,10 @@ namespace Aspidnest
             petra,
             soldier,
             guardian,
-			squit,
-			fluke,
-			mossy,
-			lance
+	    squit,
+	    fluke,
+	    mossy,
+	    lance
         }
 
         private void SetEnemyType(HealthManager hm, int type)
@@ -320,8 +320,8 @@ namespace Aspidnest
                 return NewGuardian;
             }
             #endregion
-			
-			#region Squit
+	    
+	    #region Squit
             if (type == EnemyType.squit)
             {
                 foreach (var pfsm in squit.GetComponentsInChildren<PlayMakerFSM>())
@@ -352,8 +352,8 @@ namespace Aspidnest
                 return NewSquit;
             }
             #endregion
-			
-			#region Fluke
+	    
+	    #region Fluke
             if (type == EnemyType.fluke)
             {
                 foreach (var pfsm in fluke.GetComponentsInChildren<PlayMakerFSM>())
@@ -384,8 +384,8 @@ namespace Aspidnest
                 return NewFluke;
             }
             #endregion
-			
-			#region Mossy
+	    
+	    #region Mossy
             if (type == EnemyType.mossy)
             {
                 foreach (var pfsm in mossy.GetComponentsInChildren<PlayMakerFSM>())
@@ -416,8 +416,8 @@ namespace Aspidnest
                 return NewMossy;
             }
             #endregion
-			
-			#region Lance
+	    
+	    #region Lance
             if (type == EnemyType.lance)
             {
                 foreach (var pfsm in lance.GetComponentsInChildren<PlayMakerFSM>())
@@ -474,10 +474,10 @@ namespace Aspidnest
                     if (t == 3) { count = stngs.petraCount; type = EnemyType.petra; }
                     if (t == 4) { count = stngs.soldierCount; type = EnemyType.soldier; }
                     if (t == 5) { count = stngs.guardianCount; type = EnemyType.guardian; }
-					if (t == 6) { count = stngs.squitCount; type = EnemyType.squit; }
-					if (t == 7) { count = stngs.flukeCount; type = EnemyType.fluke; }
-					if (t == 8) { count = stngs.mossyCount; type = EnemyType.mossy; }
-					if (t == 9) { count = stngs.lanceCount; type = EnemyType.lance; }
+		    if (t == 6) { count = stngs.squitCount; type = EnemyType.squit; }
+		    if (t == 7) { count = stngs.flukeCount; type = EnemyType.fluke; }
+		    if (t == 8) { count = stngs.mossyCount; type = EnemyType.mossy; }
+		    if (t == 9) { count = stngs.lanceCount; type = EnemyType.lance; }
 
                     for (int i = 0; i < count; i++)
                     {
@@ -505,12 +505,12 @@ namespace Aspidnest
                     if (t == 3) { count = stngs.petraCount; type = EnemyType.petra; }
                     if (t == 4) { count = stngs.soldierCount; type = EnemyType.soldier; }
                     if (t == 5) { count = stngs.guardianCount; type = EnemyType.guardian; }
-					if (t == 6) { count = stngs.squitCount; type = EnemyType.squit; }
-					if (t == 7) { count = stngs.flukeCount; type = EnemyType.fluke; }
-					if (t == 7) { count = stngs.flukeCount; type = EnemyType.fluke; }
-					if (t == 8) { count = stngs.mossyCount; type = EnemyType.mossy; }
-					if (t == 9) { count = stngs.lanceCount; type = EnemyType.lance; }
-					
+		    if (t == 6) { count = stngs.squitCount; type = EnemyType.squit; }
+		    if (t == 7) { count = stngs.flukeCount; type = EnemyType.fluke; }
+		    if (t == 7) { count = stngs.flukeCount; type = EnemyType.fluke; }
+		    if (t == 8) { count = stngs.mossyCount; type = EnemyType.mossy; }
+		    if (t == 9) { count = stngs.lanceCount; type = EnemyType.lance; }
+		    
 
                     for (int i = 0; i < count; i++)
                     {
