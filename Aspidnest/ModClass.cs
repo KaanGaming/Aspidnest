@@ -20,7 +20,11 @@ namespace Aspidnest
                 ("Deepnest_43","Mantis Heavy Flyer"),
                 ("Fungus3_48","Grass Hopper (1)"),
                 ("Hive_03_c","Bee Stinger (4)"),
-                ("Hive_03_c","Big Bee")
+                ("Hive_03_c","Big Bee"),
+				("Fungus1_22","Mosquito"),
+				("Waterways_02","Fluke Fly"),
+				("Fungus3_13","Moss Flyer"),
+				("Ruins1_17","Ruins Flying Sentry Javelin")
             };
         }
 
@@ -38,6 +42,10 @@ namespace Aspidnest
         private GameObject petra = null;
         private GameObject soldier = null;
         private GameObject guardian = null;
+		private GameObject squit = null;
+		private GameObject fluke = null;
+		private GameObject mossy = null;
+		private GameObject lance = null;
 
         private float sceneTimer = 0.0f;
         private bool aspidSpawned = false;
@@ -71,6 +79,10 @@ namespace Aspidnest
             petra = preloadedObjects["Deepnest_43"]["Mantis Heavy Flyer"];
             soldier = preloadedObjects["Hive_03_c"]["Bee Stinger (4)"];
             guardian = preloadedObjects["Hive_03_c"]["Big Bee"];
+			squit = preloadedObjects["Fungus1_22"]["Mosquito"];
+			fluke = preloadedObjects["Waterways_02"]["Fluke Fly"];
+			mossy = preloadedObjects["Fungus3_13"]["Moss Flyer"];
+			lance = preloadedObjects["Ruins1_17"]["Ruins Flying Sentry Javelin"];
 
             UnityEngine.SceneManagement.SceneManager.activeSceneChanged += ActiveSceneChanged;
             ModHooks.HeroUpdateHook += HeroUpdateHook;
@@ -99,7 +111,11 @@ namespace Aspidnest
             frog,
             petra,
             soldier,
-            guardian
+            guardian,
+			squit,
+			fluke,
+			mossy,
+			lance
         }
 
         private void SetEnemyType(HealthManager hm, int type)
@@ -304,6 +320,134 @@ namespace Aspidnest
                 return NewGuardian;
             }
             #endregion
+			
+			#region Squit
+            if (type == EnemyType.squit)
+            {
+                foreach (var pfsm in squit.GetComponentsInChildren<PlayMakerFSM>())
+                {
+                    pfsm.SetState(pfsm.Fsm.StartState);
+                }
+                GameObject NewSquit = GameObject.Instantiate(squit);
+                NewSquit.SetActive(true);
+                NewSquit.SetActiveChildren(true);
+                List<GameObject> SquitChildren = GetChildren(NewSquit);
+                foreach (var child in SquitChildren)
+                {
+                    if (child.name == "Alert Range")
+                        child.GetComponent<CircleCollider2D>().radius = 15;
+                }
+                HealthManager SquitHP = NewSquit.GetComponent<HealthManager>();
+                if (!stngs.enemysoul)
+                    SetEnemyType(SquitHP, 3); // setting it to 3 or 6 disables soul gain
+                SquitHP.hp = int.MaxValue;
+
+                var aspidZ = NewSquit.transform.position.z;
+                NewSquit.transform.position = new Vector3(position.x, position.y, aspidZ);
+
+                var xscale = NewSquit.transform.GetScaleX();
+                var yscale = NewSquit.transform.GetScaleY();
+                NewSquit.transform.SetScaleX(xscale * stngs.scaler);
+                NewSquit.transform.SetScaleY(yscale * stngs.scaler);
+                return NewSquit;
+            }
+            #endregion
+			
+			#region Fluke
+            if (type == EnemyType.fluke)
+            {
+                foreach (var pfsm in fluke.GetComponentsInChildren<PlayMakerFSM>())
+                {
+                    pfsm.SetState(pfsm.Fsm.StartState);
+                }
+                GameObject NewFluke = GameObject.Instantiate(fluke);
+                NewFluke.SetActive(true);
+                NewFluke.SetActiveChildren(true);
+                List<GameObject> FlukeChildren = GetChildren(NewFluke);
+                foreach (var child in FlukeChildren)
+                {
+                    if (child.name == "Alert Range")
+                        child.GetComponent<CircleCollider2D>().radius = 15;
+                }
+                HealthManager FlukeHP = NewFluke.GetComponent<HealthManager>();
+                if (!stngs.enemysoul)
+                    SetEnemyType(FlukeHP, 3); // setting it to 3 or 6 disables soul gain
+                FlukeHP.hp = int.MaxValue;
+
+                var aspidZ = NewFluke.transform.position.z;
+                NewFluke.transform.position = new Vector3(position.x, position.y, aspidZ);
+
+                var xscale = NewFluke.transform.GetScaleX();
+                var yscale = NewFluke.transform.GetScaleY();
+                NewFluke.transform.SetScaleX(xscale * stngs.scaler);
+                NewFluke.transform.SetScaleY(yscale * stngs.scaler);
+                return NewFluke;
+            }
+            #endregion
+			
+			#region Mossy
+            if (type == EnemyType.mossy)
+            {
+                foreach (var pfsm in mossy.GetComponentsInChildren<PlayMakerFSM>())
+                {
+                    pfsm.SetState(pfsm.Fsm.StartState);
+                }
+                GameObject NewMossy = GameObject.Instantiate(mossy);
+                NewMossy.SetActive(true);
+                NewMossy.SetActiveChildren(true);
+                List<GameObject> MossyChildren = GetChildren(NewMossy);
+                foreach (var child in MossyChildren)
+                {
+                    if (child.name == "Alert Range")
+                        child.GetComponent<CircleCollider2D>().radius = 15;
+                }
+                HealthManager MossyHP = NewMossy.GetComponent<HealthManager>();
+                if (!stngs.enemysoul)
+                    SetEnemyType(MossyHP, 3); // setting it to 3 or 6 disables soul gain
+                MossyHP.hp = int.MaxValue;
+
+                var aspidZ = NewMossy.transform.position.z;
+                NewMossy.transform.position = new Vector3(position.x, position.y, aspidZ);
+
+                var xscale = NewMossy.transform.GetScaleX();
+                var yscale = NewMossy.transform.GetScaleY();
+                NewMossy.transform.SetScaleX(xscale * stngs.scaler);
+                NewMossy.transform.SetScaleY(yscale * stngs.scaler);
+                return NewMossy;
+            }
+            #endregion
+			
+			#region Lance
+            if (type == EnemyType.lance)
+            {
+                foreach (var pfsm in lance.GetComponentsInChildren<PlayMakerFSM>())
+                {
+                    pfsm.SetState(pfsm.Fsm.StartState);
+                }
+                GameObject NewLance = GameObject.Instantiate(lance);
+                NewLance.SetActive(true);
+                NewLance.SetActiveChildren(true);
+                List<GameObject> LanceChildren = GetChildren(NewLance);
+                foreach (var child in LanceChildren)
+                {
+                    if (child.name == "Alert Range")
+                        child.GetComponent<CircleCollider2D>().radius = 15;
+                }
+                HealthManager LanceHP = NewLance.GetComponent<HealthManager>();
+                if (!stngs.enemysoul)
+                    SetEnemyType(LanceHP, 3); // setting it to 3 or 6 disables soul gain
+                LanceHP.hp = int.MaxValue;
+
+                var aspidZ = NewLance.transform.position.z;
+                NewLance.transform.position = new Vector3(position.x, position.y, aspidZ);
+
+                var xscale = NewLance.transform.GetScaleX();
+                var yscale = NewLance.transform.GetScaleY();
+                NewLance.transform.SetScaleX(xscale * stngs.scaler);
+                NewLance.transform.SetScaleY(yscale * stngs.scaler);
+                return NewLance;
+            }
+            #endregion
 
             return null;
         }
@@ -320,7 +464,7 @@ namespace Aspidnest
             bool knightfacesright = HeroController.instance.cState.facingRight;
             if (knightfacesright)
             {
-                for (int t = 0; t < 6; t++)
+                for (int t = 0; t < 10; t++)
                 {
                     int count = 0;
                     EnemyType type = EnemyType.aspid;
@@ -330,6 +474,10 @@ namespace Aspidnest
                     if (t == 3) { count = stngs.petraCount; type = EnemyType.petra; }
                     if (t == 4) { count = stngs.soldierCount; type = EnemyType.soldier; }
                     if (t == 5) { count = stngs.guardianCount; type = EnemyType.guardian; }
+					if (t == 6) { count = stngs.squitCount; type = EnemyType.squit; }
+					if (t == 7) { count = stngs.flukeCount; type = EnemyType.fluke; }
+					if (t == 8) { count = stngs.mossyCount; type = EnemyType.mossy; }
+					if (t == 9) { count = stngs.lanceCount; type = EnemyType.lance; }
 
                     for (int i = 0; i < count; i++)
                     {
@@ -347,7 +495,7 @@ namespace Aspidnest
             }
             else
             {
-                for (int t = 0; t < 6; t++)
+                for (int t = 0; t < 10; t++)
                 {
                     int count = 0;
                     EnemyType type = EnemyType.aspid;
@@ -357,6 +505,12 @@ namespace Aspidnest
                     if (t == 3) { count = stngs.petraCount; type = EnemyType.petra; }
                     if (t == 4) { count = stngs.soldierCount; type = EnemyType.soldier; }
                     if (t == 5) { count = stngs.guardianCount; type = EnemyType.guardian; }
+					if (t == 6) { count = stngs.squitCount; type = EnemyType.squit; }
+					if (t == 7) { count = stngs.flukeCount; type = EnemyType.fluke; }
+					if (t == 7) { count = stngs.flukeCount; type = EnemyType.fluke; }
+					if (t == 8) { count = stngs.mossyCount; type = EnemyType.mossy; }
+					if (t == 9) { count = stngs.lanceCount; type = EnemyType.lance; }
+					
 
                     for (int i = 0; i < count; i++)
                     {
