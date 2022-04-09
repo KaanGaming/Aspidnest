@@ -21,10 +21,10 @@ namespace Aspidnest
                 ("Fungus3_48","Grass Hopper (1)"),
                 ("Hive_03_c","Bee Stinger (4)"),
                 ("Hive_03_c","Big Bee"),
-		("Fungus1_22","Mosquito"),
-		("Waterways_02","Fluke Fly"),
-		("Fungus3_13","Moss Flyer"),
-		("Ruins1_17","Ruins Flying Sentry Javelin")
+                ("Fungus1_22","Mosquito"),
+                ("Waterways_02","Fluke Fly"),
+                ("Fungus3_13","Moss Flyer"),
+                ("Ruins1_17","Ruins Flying Sentry Javelin")
             };
         }
 
@@ -33,7 +33,7 @@ namespace Aspidnest
             Instance = this;
         }
 
-        public override string GetVersion() => "1.0.0";
+        public override string GetVersion() => "1.1.0";
 
         #region Variables
         private GameObject aspid = null;
@@ -42,10 +42,10 @@ namespace Aspidnest
         private GameObject petra = null;
         private GameObject soldier = null;
         private GameObject guardian = null;
-	private GameObject squit = null;
-	private GameObject fluke = null;
-	private GameObject mossy = null;
-	private GameObject lance = null;
+        private GameObject squit = null;
+        private GameObject fluke = null;
+        private GameObject mossy = null;
+        private GameObject lance = null;
 
         private float sceneTimer = 0.0f;
         private bool aspidSpawned = false;
@@ -53,6 +53,7 @@ namespace Aspidnest
         private bool enableAspids = true;
 
         private List<GameObject> managed = new List<GameObject>();
+        private List<GameObject> aslist = new List<GameObject>();
         #endregion
 
         #region Settings
@@ -79,14 +80,12 @@ namespace Aspidnest
             petra = preloadedObjects["Deepnest_43"]["Mantis Heavy Flyer"];
             soldier = preloadedObjects["Hive_03_c"]["Bee Stinger (4)"];
             guardian = preloadedObjects["Hive_03_c"]["Big Bee"];
-	    squit = preloadedObjects["Fungus1_22"]["Mosquito"];
-	    fluke = preloadedObjects["Waterways_02"]["Fluke Fly"];
-	    mossy = preloadedObjects["Fungus3_13"]["Moss Flyer"];
-	    lance = preloadedObjects["Ruins1_17"]["Ruins Flying Sentry Javelin"];
-
+            squit = preloadedObjects["Fungus1_22"]["Mosquito"];
+            fluke = preloadedObjects["Waterways_02"]["Fluke Fly"];
+            mossy = preloadedObjects["Fungus3_13"]["Moss Flyer"];
+            lance = preloadedObjects["Ruins1_17"]["Ruins Flying Sentry Javelin"];
             UnityEngine.SceneManagement.SceneManager.activeSceneChanged += ActiveSceneChanged;
             ModHooks.HeroUpdateHook += HeroUpdateHook;
-            //TODO: create option to disable soul gain
 
             Instance = this;
 
@@ -112,10 +111,10 @@ namespace Aspidnest
             petra,
             soldier,
             guardian,
-	    squit,
-	    fluke,
-	    mossy,
-	    lance
+            squit,
+            fluke,
+            mossy,
+            lance
         }
 
         private void SetEnemyType(HealthManager hm, int type)
@@ -320,8 +319,8 @@ namespace Aspidnest
                 return NewGuardian;
             }
             #endregion
-	    
-	    #region Squit
+
+            #region Squit
             if (type == EnemyType.squit)
             {
                 foreach (var pfsm in squit.GetComponentsInChildren<PlayMakerFSM>())
@@ -352,8 +351,8 @@ namespace Aspidnest
                 return NewSquit;
             }
             #endregion
-	    
-	    #region Fluke
+
+            #region Fluke
             if (type == EnemyType.fluke)
             {
                 foreach (var pfsm in fluke.GetComponentsInChildren<PlayMakerFSM>())
@@ -384,8 +383,8 @@ namespace Aspidnest
                 return NewFluke;
             }
             #endregion
-	    
-	    #region Mossy
+
+            #region Mossy
             if (type == EnemyType.mossy)
             {
                 foreach (var pfsm in mossy.GetComponentsInChildren<PlayMakerFSM>())
@@ -416,8 +415,8 @@ namespace Aspidnest
                 return NewMossy;
             }
             #endregion
-	    
-	    #region Lance
+
+            #region Lance
             if (type == EnemyType.lance)
             {
                 foreach (var pfsm in lance.GetComponentsInChildren<PlayMakerFSM>())
@@ -448,7 +447,6 @@ namespace Aspidnest
                 return NewLance;
             }
             #endregion
-
             return null;
         }
         #endregion
@@ -458,6 +456,7 @@ namespace Aspidnest
             aspidSpawned = true;
 
             managed.Clear();
+            aslist.Clear();
 
             if (!GameManager.instance.IsGameplayScene()) return;
 
@@ -474,10 +473,10 @@ namespace Aspidnest
                     if (t == 3) { count = stngs.petraCount; type = EnemyType.petra; }
                     if (t == 4) { count = stngs.soldierCount; type = EnemyType.soldier; }
                     if (t == 5) { count = stngs.guardianCount; type = EnemyType.guardian; }
-		    if (t == 6) { count = stngs.squitCount; type = EnemyType.squit; }
-		    if (t == 7) { count = stngs.flukeCount; type = EnemyType.fluke; }
-		    if (t == 8) { count = stngs.mossyCount; type = EnemyType.mossy; }
-		    if (t == 9) { count = stngs.lanceCount; type = EnemyType.lance; }
+                    if (t == 6) { count = stngs.squitCount; type = EnemyType.squit; }
+                    if (t == 7) { count = stngs.flukeCount; type = EnemyType.fluke; }
+                    if (t == 8) { count = stngs.mossyCount; type = EnemyType.mossy; }
+                    if (t == 9) { count = stngs.lanceCount; type = EnemyType.lance; }
 
                     for (int i = 0; i < count; i++)
                     {
@@ -488,14 +487,14 @@ namespace Aspidnest
                         }
                         else
                         {
-                            AddPrimalAspid(new Vector2(HeroController.instance.transform.GetPositionX() + 4f + (float)(rng.NextDouble() - 0.5), HeroController.instance.transform.GetPositionY() + 1.5f + (float)(rng.NextDouble() * 0.6 - 0.3)), type);
+                            aslist.Add(AddPrimalAspid(new Vector2(HeroController.instance.transform.GetPositionX() + 4f + (float)(rng.NextDouble() - 0.5), HeroController.instance.transform.GetPositionY() + 1.5f + (float)(rng.NextDouble() * 0.6 - 0.3)), type));
                         }
                     }
                 }
             }
             else
             {
-                for (int t = 0; t < 10; t++)
+                for (int t = 0; t < 15; t++)
                 {
                     int count = 0;
                     EnemyType type = EnemyType.aspid;
@@ -505,12 +504,11 @@ namespace Aspidnest
                     if (t == 3) { count = stngs.petraCount; type = EnemyType.petra; }
                     if (t == 4) { count = stngs.soldierCount; type = EnemyType.soldier; }
                     if (t == 5) { count = stngs.guardianCount; type = EnemyType.guardian; }
-		    if (t == 6) { count = stngs.squitCount; type = EnemyType.squit; }
-		    if (t == 7) { count = stngs.flukeCount; type = EnemyType.fluke; }
-		    if (t == 7) { count = stngs.flukeCount; type = EnemyType.fluke; }
-		    if (t == 8) { count = stngs.mossyCount; type = EnemyType.mossy; }
-		    if (t == 9) { count = stngs.lanceCount; type = EnemyType.lance; }
-		    
+                    if (t == 6) { count = stngs.squitCount; type = EnemyType.squit; }
+                    if (t == 7) { count = stngs.flukeCount; type = EnemyType.fluke; }
+                    if (t == 7) { count = stngs.flukeCount; type = EnemyType.fluke; }
+                    if (t == 8) { count = stngs.mossyCount; type = EnemyType.mossy; }
+                    if (t == 9) { count = stngs.lanceCount; type = EnemyType.lance; }
 
                     for (int i = 0; i < count; i++)
                     {
@@ -521,7 +519,7 @@ namespace Aspidnest
                         }
                         else
                         {
-                            AddPrimalAspid(new Vector2(HeroController.instance.transform.GetPositionX() - 4f + (float)(rng.NextDouble() - 0.5), HeroController.instance.transform.GetPositionY() + 1.5f + (float)(rng.NextDouble() * 0.6 - 0.3)), type);
+                            aslist.Add(AddPrimalAspid(new Vector2(HeroController.instance.transform.GetPositionX() - 4f + (float)(rng.NextDouble() - 0.5), HeroController.instance.transform.GetPositionY() + 1.5f + (float)(rng.NextDouble() * 0.6 - 0.3)), type));
                         }
                     }
                 }
@@ -540,6 +538,14 @@ namespace Aspidnest
                 if (enableAspids)
                 {
                     enableAspids = false;
+                    if (!stngs.enemytp)
+                    {
+                        for (int i = 0; i < aslist.Count; i++)
+                        {
+                            GameObject.Destroy(aslist[i]);
+                        }
+                        aslist.Clear();
+                    }
                     for (int i = 0; i < managed.Count; i++)
                     {
                         GameObject.Destroy(managed[i]);
@@ -554,6 +560,24 @@ namespace Aspidnest
             }
 
             if (sceneTimer > 2f && !aspidSpawned && enableAspids) SpawnAspid();
+
+            if (!stngs.enemytp)
+            {
+                int cc = aslist.Count;
+
+                for (int i = 0; i < cc; i++)
+                {
+                    var aspid = aslist[i];
+
+                    if (aspid == null)
+                    {
+                        aslist.Remove(aspid);
+                        i--;
+                        cc--;
+                        continue;
+                    }
+                }
+            }
 
             var herox = HeroController.instance.gameObject.transform.position.x;
             var heroy = HeroController.instance.gameObject.transform.position.y;
@@ -572,15 +596,15 @@ namespace Aspidnest
                         c--;
                         continue;
                     }
-                    if (maspid.transform.position.x - herox <= -25 || maspid.transform.position.x - herox >= 25)
+                    if (maspid.transform.position.x - herox <= (-25 * stngs.tpdist) || maspid.transform.position.x - herox >= (25 * stngs.tpdist))
                     {
                         maspid.transform.SetPosition2D(herox, heroy + 6f);
                     }
-                    if (maspid.transform.position.y - heroy <= -25 || maspid.transform.position.y - heroy >= 25)
+                    if (maspid.transform.position.y - heroy <= (-25 * stngs.tpdist) || maspid.transform.position.y - heroy >= (25 * stngs.tpdist))
                     {
                         maspid.transform.SetPosition2D(herox, heroy + 6f);
                     }
-                    LogDebug($"Player location: {herox}, {heroy}\nAspid location: {maspid.transform.position.x}, {maspid.transform.position.y}\nCalculation: {maspid.transform.position.x - herox}, {maspid.transform.position.y - heroy}");
+                    LogFine($"Player location: {herox}, {heroy}\nAspid location: {maspid.transform.position.x}, {maspid.transform.position.y}\nCalculation: {maspid.transform.position.x - herox}, {maspid.transform.position.y - heroy}");
                 }
             }
             if (!HeroController.instance.cState.onGround)
@@ -600,7 +624,7 @@ namespace Aspidnest
                     {
                         maspid.transform.SetPosition2D(herox, heroy - 7f);
                     }
-                    LogDebug($"Player location: {herox}, {heroy}\nAspid location: {maspid.transform.position.x}, {maspid.transform.position.y}\nCalculation: {maspid.transform.position.x - herox}, {maspid.transform.position.y - heroy}");
+                    LogFine($"Player location: {herox}, {heroy}\nAspid location: {maspid.transform.position.x}, {maspid.transform.position.y}\nCalculation: {maspid.transform.position.x - herox}, {maspid.transform.position.y - heroy}");
                 }
             }
         }

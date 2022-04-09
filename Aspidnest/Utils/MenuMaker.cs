@@ -156,7 +156,7 @@ namespace Aspidnest.Utils
                 );
         }
 
-        public IMenuMod.MenuEntry Empty(string name = "", string description = "")
+        public IMenuMod.MenuEntry Empty(string name = " ", string description = " ")
         {
             return new IMenuMod.MenuEntry(
                 name, new string[] { },

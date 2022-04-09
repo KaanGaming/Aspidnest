@@ -12,13 +12,14 @@ namespace Aspidnest
         public int petraCount = 0;
         public int soldierCount = 0;
         public int guardianCount = 0;
-	public int squitCount = 0;
-	public int flukeCount = 0;
-	public int mossyCount = 0;
-	public int lanceCount = 0;
+	    public int squitCount = 0;
+	    public int flukeCount = 0;
+	    public int mossyCount = 0;
+	    public int lanceCount = 0;
         public int enemyCount = 1;
 
         public float scaler = 1f;
+        public float tpdist = 1f;
         public KeyCode togglebind = KeyCode.None;
         public bool enemytp = true;
         public bool enemysoul = true;
